@@ -1,11 +1,11 @@
-FROM php:5.6.31-apache
+FROM php:5.6-apache
 
 RUN set -ex; \
 	\
 	apt-get update; \
 	apt-get install -y \
 		libjpeg-dev \
-		libpng12-dev \
+		libpng-dev \
         # for xmlrpc extension
         libxml2-dev \
         # for intl extension
@@ -81,7 +81,7 @@ VOLUME /var/www/data
 # Install locale we need for PHPUnit.
 # Set the locale
 RUN apt-get clean && apt-get update
-RUN apt-get install locales
+RUN apt-get install -y locales
 RUN echo 'en_AU.UTF-8 UTF-8' >> /etc/locale.gen
 RUN echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen
 RUN locale-gen
