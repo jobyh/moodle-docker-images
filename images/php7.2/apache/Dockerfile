@@ -10,11 +10,13 @@ RUN set -ex; \
         libxml2-dev \
         # for intl extension
         libicu-dev \
+        # for xsl extension
+        libxslt1-dev \
 	; \
 	rm -rf /var/lib/apt/lists/*; \
 	\
 	docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr; \
-	docker-php-ext-install gd mysqli opcache zip xmlrpc soap intl
+	docker-php-ext-install gd mysqli opcache zip xmlrpc soap intl xsl
 
 # set recommended PHP.ini settings
 # see https://secure.php.net/manual/en/opcache.installation.php
@@ -33,18 +35,8 @@ RUN a2enmod rewrite expires
 
 # Install XDebug
 # Enable and configure xdebug
-#RUN pecl install xdebug-2.5.0
-#RUN docker-php-ext-enable xdebug
-#RUN { \
-#		echo 'xdebug.remote_enable=1'; \
-#		echo 'xdebug.remote_handler=dbgp'; \
-#		echo 'xdebug.remote_port=9000'; \
-#		echo 'xdebug.remote_autostart=1'; \
-#		echo 'xdebug.remote_connect_back=0'; \
-#		echo 'xdebug.remote_connect_back=0'; \
-#		echo 'xdebug.idekey=PHPSTORM'; \
-#		echo 'xdebug.remote_host=192.168.56.1'; \
-#	} >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+RUN pecl install xdebug-2.6.0
+RUN docker-php-ext-enable xdebug
 
 VOLUME /var/www/html
 
